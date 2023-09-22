@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "claw-segmentation"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "claw_segmentation"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ultralytics = "^8.0.180"
+pynvim = "^0.4.3"
+pdbpp = "^0.10.3"
+pillow = "^10.0.0"
+matplotlib = "^3.8.0"
+opencv-python = "^4.8.0.76"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
