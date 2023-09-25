@@ -20,8 +20,8 @@ def create_folders(path: str):
 
 def create_plot(r, result_data):
     filename = r.path.split("/")[-1]
-    date = result_data["date"]
-    folder = "./claw_segmentation/data/ergebnisse/grafiken/" + date
+    date = "_".join(result_data["date"].split("_")[::-1])
+    folder = "./claw_segmentation/data/ergebnisse/grafiken/" + date + "/"
     create_folders(folder)
     if os.path.exists(folder + filename):
         return
@@ -131,6 +131,7 @@ def create_result_plots(df, result_folder, category):
         y="Relative Klauenfläche (=Aussen/Innen)",
         data=df,
     )
+    plt.grid()
     plt.savefig(result_folder + f"{category}_boxplot.png")
     plt.close()
 
@@ -141,6 +142,7 @@ def create_result_plots(df, result_folder, category):
         data=df,
         err_style="bars",
     )
+    plt.grid()
     plt.savefig(result_folder + f"{category}_lineplot.png")
     plt.close()
 
@@ -150,6 +152,7 @@ def create_result_plots(df, result_folder, category):
         data=df,
         kde=True,
     )
+    plt.grid()
     plt.savefig(result_folder + f"{category}_histplot.png")
     plt.close()
 
@@ -172,6 +175,7 @@ def add_categories(df, folder):
                 group = "Gelb"
             categories.append({"Ohrmarkennummer": cell.value, "Gruppe": group})
     categories_df = pd.DataFrame(categories)
+    df.drop(columns=["Gruppe"], inplace=True, errors="ignore")
     # Add group data to the dataframe
     df = df.join(categories_df.set_index("Ohrmarkennummer", drop=True), on="Ohrmarkennummer", how="left")
     return df
@@ -256,11 +260,11 @@ df_joined = df.pivot_table(
 
 df_joined.columns = df_joined.columns.droplevel(0)
 df_joined = df_joined.reset_index()
-sns.scatterplot(
+sns.jointplot(
     x="links",
     y="rechts",
     hue="Gruppe",
     data=df_joined,
 )
-
-plt.show()
+plt.grid()
+plt.savefig(result_folder + "links_rechts_jointplot.png")
