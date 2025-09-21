@@ -74,9 +74,6 @@ res_df["Datum"] = pd.to_datetime(res_df["Datum"], format="%Y_%m_%d")
 excel_file = DATA_FOLDER + "Klauenerziehung_Urliste.xlsx"
 birth_dates_df = get_birth_dates(excel_file).drop_duplicates(ignore_index=True)
 weight_df = get_weight_measures(excel_file)
-# TODO: Add weight data to the dataframe if needed
-
-import pdb; pdb.set_trace()
 
 ear_tags = res_df["Ohrmarkennummer"].unique()
 # Add group data to the dataframe
